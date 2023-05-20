@@ -1,8 +1,14 @@
+let localhostIP
+async function getIPV4() {
+  const { publicIpv4 } = await import('public-ip')
+  localhostIP = await publicIpv4()
+}
+getIPV4()
+
 const allowedOrigins = [
+  `http://${localhostIP}:9999`,
   'https://www.yoursite.com',
-  'http://127.0.0.1:5500',
-  'http://localhost:3500',
-  'http://localhost:3000'
+  'http://localhost:3300'
 ]
 
 const corsOptions = {

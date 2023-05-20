@@ -3,9 +3,10 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const corsOptions = require('../config/options/cors')
 const staticOptions = require('../config/options/static')
-const logging = require('./logging')
+const auth = require('../middleware/auth')
+const logging = require('../startup/logging')
 
-const chatGPT = require('../routes/chatgpt')
+const chatGPT = require('./chatgpt')
 const notFound = require('../middleware/notFound')
 
 module.exports = function (app) {

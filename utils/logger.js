@@ -4,28 +4,6 @@ const dayjs = require('dayjs')
 const { createLogger, format, transports } = require('winston')
 const { combine, timestamp, printf } = format
 
-// const colors = {
-//   error: 'red',
-//   warn: 'blue',
-//   info: 'blue',
-//   http: 'white',
-//   verbose: 'green',
-//   debug: 'green',
-//   silly: 'green'
-// }
-
-// const levels = {
-//   error: 0,
-//   warn: 1,
-//   info: 2,
-//   http: 3,
-//   verbose: 4,
-//   debug: 5,
-//   silly: 6
-// }
-
-// addColors(colors)
-
 const timezone = () => {
   return dayjs().format('YYYY-MM-DD HH:mm:ss.SSS')
 }
