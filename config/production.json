@@ -2,5 +2,5 @@
   "port": "3300",
   "jwtPrivateKey": "1234",
   "db": "mongodb://localhost:27017/chatGpt",
-  "openAIKey": "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"
+  "openAIKey": ""
 }
