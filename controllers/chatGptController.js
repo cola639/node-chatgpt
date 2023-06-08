@@ -8,6 +8,7 @@ require('isomorphic-fetch') // 支持fetch
 const CLOSE_MARK_MSG = 'END标记'
 let openai, chatgptApi
 const apiKey = config.get('openAIKey')
+console.log('🚀 >> apiKey:', apiKey)
 const connectOpenAI = async () => {
   const configuration = new Configuration({
     apiKey
@@ -70,15 +71,7 @@ const generateImage = async (req, res) => {
 }
 
 const reqData = {
-  messages: [
-    {
-      role: 'system',
-      content:
-        'You are a helpful assistant. You can help me by answering my questions. You can also ask me questions.'
-    },
-    { role: 'user', content: '你好' },
-    { role: 'user', content: '美国程序员薪资水平' }
-  ],
+  messages: [],
   model: 'gpt-3.5-turbo',
   max_tokens: 2048,
   temperature: 0.7,
@@ -86,6 +79,12 @@ const reqData = {
 }
 
 const gptTuro = async (req, res) => {
+  const { messages } = req.body
+
+  // 优化promot
+  reqData.messages = messages
+  console.log('🚀 >> gptTuro >> messages:', messages)
+
   res.set({
     'Content-Type': 'text/event-stream',
     'Cache-Control': 'no-cache',
@@ -110,9 +109,8 @@ const gptTuro = async (req, res) => {
     const response = await fetch(`${host}/v1/chat/completions`, config)
     await handleSSE(response, (message) => {
       if (message === '[DONE]') {
-        streamData.write(`响应已结束`)
-        streamData.end()
-        return
+        streamData.write('响应已结束')
+        return streamData.end()
       }
 
       const data = JSON.parse(message)
@@ -120,8 +118,8 @@ const gptTuro = async (req, res) => {
 
       const text = data.choices[0]?.delta?.content
       if (text !== undefined) {
-        console.log('🚀🚀 >> text:', text)
-        streamData.write(`text:${JSON.stringify(text)}`)
+        console.log('text: ', text)
+        streamData.write(text)
       }
     })
   } catch (error) {

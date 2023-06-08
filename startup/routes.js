@@ -4,9 +4,10 @@ const cookieParser = require('cookie-parser')
 const corsOptions = require('../config/options/cors')
 const staticOptions = require('../config/options/static')
 const auth = require('../middleware/auth')
-const logging = require('../startup/logging')
+const logging = require('./logging')
 
-const chatGPT = require('./chatgpt')
+const chatGPT = require('../routes/chatgpt')
+const users = require('../routes/users')
 const notFound = require('../middleware/notFound')
 
 module.exports = function (app) {
@@ -17,5 +18,6 @@ module.exports = function (app) {
   app.use(cookieParser()) // cookie add to req obj
   app.use('/static', express.static('static', staticOptions)) // config accessible static
   app.use('/api/chatGpt', chatGPT) // config accessible static
+  app.use('/api/user', users)
   app.all('*', notFound) // not found handle
 }
